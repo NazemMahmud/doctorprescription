@@ -1,0 +1,112 @@
+.logo {
+    float: left;
+    /*height: 50px;*/
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
+.logo a{
+    height: 50px;
+}
+.navbar-default .navbar-nav li a {
+    font-size: 15px;
+    color: #008000;
+}
+.navbar-default .navbar-nav li a:hover {
+    color: #008000;
+}
+.navbar{
+    background-image: url("../img/header_background.jpg");
+    /*background-position: center;*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: cover;*/
+/*{!! asset('img/dpicon.png') !!}*/
+}
+.navbar-brand{
+    padding: 11px 7px;
+    /*line-height: 20px;*/
+}
+/*ccddf7*/
+#navBarSearchForm input[type=text]{width:430px !important;}
+
+.list-all{
+    margin-bottom:5px; background-color: #fff;border: 1px solid #dddfe2; border-radius: 5px;
+}
+.list-all button{
+    margin-left: 10px;background-color: #343290; color:#fff;
+}
+.naw h4{
+    margin-left: 10px; color: #343290;
+}
+.naw h4 span{
+    color:#000;
+}
+.pdate{
+    float: right;
+    margin-right: 10px;
+}
+.naw .pdate h4{
+    color: #4348F5;
+}
+.btn-view{
+    background-color: #343290; color:#fff;
+}
+.view-details{
+    /*background-color: #343290;*/
+}
+.session-new{
+    /*display:inline-block;*/
+    margin-bottom:5px; background-color: #4BA52A; border: 1px solid #dddfe2; border-radius: 5px;
+    border:0;
+    /*width:196px;*/
+    /*height:210px;*/
+    position: relative;
+    /*-webkit-transition: all 200ms ease-in;*/
+    -webkit-transform: scale(1);
+    /*-ms-transition: all 200ms ease-in;*/
+    -ms-transform: scale(1);
+    /*-moz-transition: all 200ms ease-in;*/
+    -moz-transform: scale(1);
+    /*transition: all 200ms ease-in;*/
+    transform: scale(1);
+}
+.session-new a{
+    text-align: center; text-transform: capitalize;border-bottom: 2px; color: #fff;text-decoration: none;
+}
+/*.session-new a:hover{*/
+    /*text-decoration: none;*/
+/*}*/
+.session-new:hover{
+    box-shadow: 0px 0px 5px #000;
+    /*z-index: 2;*/
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1);
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1);
+    transition: all 200ms ease-in;
+    transform: scale(1);
+}
+#prescription{
+    display: none;
+}
+#prescription .form-group{
+    padding-bottom: 10px;
+    border-bottom: 1.8px solid #e9ebee;
+    /*border-radius: 2px 2px;*/
+}
+@media only screen and (max-width: 991px) {
+    .pdate{
+        float: none;
+        margin-left: 10px;
+    }
+}
+@media (min-width: 768px) {
+    .navbar {
+        border-radius: 0px;
+    }
+    .navbar-form {
+        width: 45em;
+    }
+}
