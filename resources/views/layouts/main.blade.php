@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">  <!--Mobile first-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!--IE Compatibility modes-->
-    <title>@yield('title') Login </title>
+    <title>@yield('title') </title>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="Doctor Prescription">
     <meta name="author" content="">

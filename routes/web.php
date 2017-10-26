@@ -17,13 +17,25 @@
 
 
 Route::get('/', 'DoctorController@index')->name('doctor.dashboard');
+Route::post('/create_patient', 'PatientController@CreatePatient')->name('create_patient');
 Route::get('/patient-history', 'PatientController@PatientHistory')->name('patient.history');
+Route::post('/create-session', 'PatientController@CreateSession')->name('patient.create_session');
+Route::get('/view-session/{patient_id}/{session_id}', 'PatientController@ViewSession')->name('patient.session_details');
+
+//'patient.session_details', ['patient_id'=>$patient->id, ''=>$sessions->SessionId])
+Route::get('/test-session', 'PatientController@TestSession')->name('patient.test_session');
+//Route::get('/savepatient/session/{user_id}/{patient_id}', [
+//    'uses'=> 'PatientController@CreateSessionView',
+//    'as'=>'createsession'
+//]);
+//Route::get('/create-session', 'PatientController@CreateSession')->name('patient.create_session');
+
 Route::prefix('dct')->group(function () {
     Route::get('/dct/sign', 'Auth\DoctorLoginController@showLoginForm')->name('doctor.login');
     Route::post('/dct/sign', 'Auth\DoctorLoginController@login')->name('doctor.login.submit');
 Route::post('/dct/logout', 'Auth\DoctorLoginController@logout')->name('doctor.logout');
 });
-Route::post('/create_patient', 'PatientController@CreatePatient')->name('create_patient');
+
 
 
 

@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col-md-6 ">
                         <form action="{{ route('patient.history') }}" class="form-group">
-                            <input type="text" name="pat-id" value="{{ $patient->id }}">
+                            <input type="hidden" name="pat-id" value="{{ $patient->id }}">
                             {{--<input type="text" name="doctor_id"value="{{ Auth::user()->id }}">--}}
                             <button class="btn " type="submit" style="">
                                 View Details

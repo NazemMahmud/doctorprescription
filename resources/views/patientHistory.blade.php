@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-    Doctor Prescription
+    Patient History
 @endsection
 @section('main-body')
     @if(Session::has('message'))
@@ -11,8 +11,7 @@
         </div>
         {{--</div>--}}
     @endif
-    <div class="container-fluid" style="">
-        {{--@foreach($patients as $patient)--}}
+    <div class="container-fluid" style="margin-bottom: 150px;">
             <div class="col-md-6 col-md-offset-3 list-all" style="">
                 <div class="row naw" style="padding-top: 10px;">
                     <div class="col-md-6" style="">
@@ -51,11 +50,12 @@
             </div>
         </div>
         <div class="col-md-6 col-md-offset-3 list-all" id="prescription" style="">
-            
             <div class="row" style="margin-top: 10px;">
                 <div class="col-xs-12 col-md-12 col-sm-12">
                     <!-- PAGE CONTENT BEGINS -->
-                    <form class="form-horizontal" role="form" name="" method="post" action="#" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" name="" method="post" action="{{ route('patient.create_session') }}" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="pat-id" id="pat-id" value="{{ $patient->id }}">
                             {{--SYMPTOMS--}}
                         <div class="form-group" >
                             <label class="col-sm-3 col-md-3 control-label no-padding-right" for="form-field-1-1">Symptoms:</label>
@@ -67,24 +67,11 @@
                         <div class="form-group">
                             <label class="col-sm-3 col-md-3 control-label no-padding-right" for="form-field-1-1">Tests (if any):</label>
                             <div class="col-sm-9 col-md-9" style="margin-top: 7px;">
-                                <div class="col-sm-4 col-md-4">
-                                    <input class="form-check-input" id="test_name[]" type="checkbox" name="test_name[]" value="1" style="margin-right: 5px;">Test name 1
-                                </div>
-                                <div class="col-sm-4 col-md-4">
-                                    <input class="form-check-input" id="test_name[]" type="checkbox" name="test_name[]" value="3" style="margin-right: 5px;">Test name 2
-                                </div>
-                                <div class="col-sm-4 col-md-4">
-                                    <input class="form-check-input" id="test_name[]" type="checkbox" name="test_name[]" value="1" style="margin-right: 5px;">Test name 1
-                                </div>
-                                <div class="col-sm-4 col-md-4">
-                                    <input class="form-check-input" id="test_name[]" type="checkbox" name="test_name[]" value="3" style="margin-right: 5px;">Test name 2
-                                </div>
-                                <div class="col-sm-4 col-md-4">
-                                    <input class="form-check-input" id="test_name[]" type="checkbox" name="test_name[]" value="1" style="margin-right: 5px;">Test name 1
-                                </div>
-                                <div class="col-sm-4 col-md-4">
-                                    <input class="" id="test_name[]" type="checkbox" name="test_name[]" value="3" style="margin-right: 5px;">Test name 2
-                                </div>
+                                @foreach($tests as $test)
+                                    <div class="col-sm-6 col-md-6">
+                                        <input class="form-check-input" id="test_name[]" type="checkbox" name="test_name[]" value="{{ $test->Testid }}" style="margin-right: 5px;">{{ $test->TestName }}
+                                    </div>
+                                @endforeach
 
                             </div>
                         </div>
@@ -97,21 +84,28 @@
                                     <button class="add_field_button btn btn-view" style="background-color: #4BA52A; float: right;" >Add More </button>
                                 </div>
                             </div>
+                            {{--<input type="hidden" name="rows[0][link]" value="' + link + '">--}}
+                            {{--<input type="hidden" name="rows[0][store]" value="' + store + '">--}}
+                            {{--<input type="hidden" name="rows[1][link]" value="' + link + '">--}}
+                            {{--<input type="hidden" name="rows[1][store]" value="' + store + '">--}}
 
                             <div class="col-md-9 col-sm-9 col-md-offset-3 col-sm-offset-3 input_fields_wrap  ">
                                 {{--<div class="col-sm-12 col-md-12 input_fields_wrap " >--}}
                                 <div class="row" style="margin-bottom: 5px;">
                                     <div class="col-md-5 col-sm-5" style="margin-bottom: 5px;">
-                                        <input type="text" class="form-control" name="medicine_name[]" placeholder="Medicine name">
+                                        {{--<input type="text" class="form-control" name="medicine_name[]" placeholder="Medicine name">--}}
+                                        <input type="text" class="form-control" name="medicine[0][name]" placeholder="Medicine name">
                                     </div>
                                     <div class="col-md-4 col-sm-4" style="margin-bottom: 5px;">
-                                        <input class="form-control" name="medicine_duration[]" type="number"  placeholder="Duration in days">
+                                        {{--<input class="form-control" name="medicine_duration[]" type="number"  placeholder="Duration in days">--}}
+                                        <input class="form-control" name="medicine[0][duration]" type="number"  placeholder="Duration in days">
                                     </div>
 
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5 col-sm-5" style="margin-bottom: 5px;">
-                                        <select class="selectpicker form-control" id="medicine_dose[]" name="[]" type="text">
+                                        {{--<select class="selectpicker form-control" id="medicine_dose[]" name="[]" type="text">--}}
+                                        <select class="selectpicker form-control" id="" name="medicine[0][dose]" type="text">
                                             <option value="NULL">Select Dose</option>
                                             <option value="1-0-1">1-0-1</option>
                                             <option value="1-0-0">1-0-0</option>
@@ -122,7 +116,7 @@
                                     </div>
 
                                     <div class="col-md-4 col-sm-4 " style="margin-bottom: 5px;">
-                                        <select class="form-control" id="medicine_before_after_meal[]" name="medicine_before_after_meal[]" type="text">
+                                        <select class="form-control" id="" name="medicine[0][before_after_meal]" type="text">
                                             <option value="NULL">Before/After Meal</option>
                                             <option value="before">before taking meal</option>
                                             <option value="after">after taking meal</option>
@@ -170,26 +164,64 @@
 
                         <div class="clearfix form-actions" style="padding-bottom: 10px;">
                             <div class="col-md-offset-3 col-md-9">
-
                                 <button name="btnAdd" class="btn btn-info" type="submit">
                                     <i class="ace-icon fa fa-check bigger-110"></i>
                                     Add Session
                                 </button>
-
-
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
-
         </div>
-        <div class="col-md-6 col-md-offset-3 session-new" id="create_session" style="border-radius: 0 0 10px 10px ">
+        <div class="col-md-6 col-md-offset-3 session-new" id="prev_session" style="border-radius: 0 0 10px 10px ">
             <div class="row  "  style=" ">
                 {{--<div class="session-new" style="border-bottom: 2px solid #e9ebee">--}}
                 <a href="#" style="" onclick=""><h3>Previous Sessions</h3></a>
                 {{--</div>--}}
+
+            </div>
+        </div>
+
+        <div class="col-md-6 col-md-offset-3 list-all" id="prev_prescription" style="">
+            <div class="row" style="margin-top: 10px;">
+
+                    <div class="col-sm-12 col-md-12 naw" style=" margin-top: 7px;">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center"><h5 style="color: #343290;"><b>Session No</b></h5></th>
+                                        <th style="text-align: center"><h5 style="color: #343290;"><b>Session Date</b></h5></th>
+                                        <th style="text-align: center"><h5 style="color: #343290;"><b>Return Date</b></h5></th>
+                                        <th style="text-align: center"><h5 style="color: #343290;"><b>View </b></h5></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="info">
+                                        <td style="text-align: center">{{ $sessions->SessionId }}</td>
+                                        <td style="text-align: center">{{ $sessions->created_at->format('d-m-Y') }}</td>
+                                        <td style="text-align: center">{{ $sessions->ReturnDate }}</td>
+                                        <td style="text-align: center"><a href="{{ route('patient.session_details', ['patient_id'=>$patient->id, 'session_id'=>$sessions->SessionId]) }}">View Details</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- PAGE CONTENT BEGINS -->
+                    {{--<form class="form-horizontal" role="form" name="" method="post" action="{{ route('patient.create_session') }}" enctype="multipart/form-data">--}}
+                        {{--{{ csrf_field() }}--}}
+                        <input type="hidden" name="pat-id" id="pat-id" value="{{ $patient->id }}">
+
+                        {{--<div class="clearfix form-actions" style="padding-bottom: 10px;">--}}
+                            {{--<div class="col-md-offset-3 col-md-9">--}}
+                                {{--<button name="btnAdd" class="btn btn-info" type="submit">--}}
+                                    {{--<i class="ace-icon fa fa-check bigger-110"></i>--}}
+                                    {{--Add Session--}}
+                                {{--</button>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</form>--}}
 
             </div>
         </div>
@@ -214,20 +246,20 @@
             var wrapper         = $(".input_fields_wrap"); //Fields wrapper
             var add_button      = $(".add_field_button"); //Add button ID
 
-            var x = 1; //initlal text box count
+            var x = 0; //initlal text box count
             $(add_button).click(function(e){ //on add input button click
                 e.preventDefault();
                 if(x < max_fields){ //max input box allowed
                     x++; //text box increment
                     $(wrapper).append('<div class="more_medicine_row"><div class="row" style="margin-bottom: 5px;">' +
                                               '<div class="col-md-5 col-sm-5" style="margin-bottom: 5px;">'+
-                                              '<input type="text" class="form-control" name="medicine_name[]" placeholder="Medicine name">' + '</div>'+
+                                              '<input type="text" class="form-control" name="medicine['+x+'][name]" placeholder="Medicine name">' + '</div>'+
                                               '<div class="col-md-4 col-sm-4" style="margin-bottom: 5px;">'+
-                                              '<input class="form-control" name="medicine_duration[]" type="number"  placeholder="Duration in days">'+ '</div>'+
+                                              '<input class="form-control" name="medicine['+x+'][duration]" type="number"  placeholder="Duration in days">'+ '</div>'+
                                             '</div>' +
                                             '<div class="row">'+
                                               '<div class="col-md-5 col-sm-5" style="margin-bottom: 5px;">'+
-                                                '<select class="selectpicker form-control" id="medicine_dose[]" name="[]" type="text">'+
+                                                '<select class="selectpicker form-control" id="" name="medicine['+x+'][dose]" type="text">'+
                                                     '<option value="NULL">Select Dose</option>'+
                                                     '<option value="1-0-1">1-0-1</option>'+
                                                     '<option value="1-0-0">1-0-0</option>'+
@@ -237,7 +269,7 @@
                                                 '</select>'+
                                               '</div>'+
                                               '<div class="col-md-4 col-sm-4 " style="margin-bottom: 5px;">'+
-                                                '<select class="form-control" id="medicine_before_after_meal[]" name="medicine_before_after_meal[]" type="text">'+
+                                                '<select class="form-control" id="" name="medicine['+x+'][before_after_meal]" type="text">'+
                                                     '<option value="NULL">Before/After Meal</option>'+
                                                     '<option value="before">before taking meal</option>'+
                                                     '<option value="after">after taking meal</option>'+
