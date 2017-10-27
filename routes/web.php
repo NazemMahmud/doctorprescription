@@ -21,6 +21,7 @@ Route::post('/create_patient', 'PatientController@CreatePatient')->name('create_
 Route::get('/patient-history', 'PatientController@PatientHistory')->name('patient.history');
 Route::post('/create-session', 'PatientController@CreateSession')->name('patient.create_session');
 Route::get('/view-session/{patient_id}/{session_id}', 'PatientController@ViewSession')->name('patient.session_details');
+Route::get('/testpdfview/{patient_id}/{session_id}', 'PatientController@ViewTestPDF')->name('patient.test_pdf');
 
 //'patient.session_details', ['patient_id'=>$patient->id, ''=>$sessions->SessionId])
 Route::get('/test-session', 'PatientController@TestSession')->name('patient.test_session');

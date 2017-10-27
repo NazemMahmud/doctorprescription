@@ -91,9 +91,9 @@
 #prescription {
     display: none;
 }
-#prev_prescription{
+/*#prev_prescription{
     display: none;
-}
+} */
 #prescription .form-group{
     padding-bottom: 10px;
     border-bottom: 1.8px solid #e9ebee;

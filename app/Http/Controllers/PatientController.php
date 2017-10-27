@@ -11,6 +11,7 @@ use App\Test;
 //use App\ReturnDate;
 use App\Session;
 use App\Symptom;
+use PDF;
 //use Barryvdh\DomPDF\Facade as PDF; // for PDF at line 76  $pdf = PDF::loadView('pdfview', ['patient'=>$patient]);;
 //use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
@@ -188,6 +189,16 @@ class PatientController extends Controller
             'medicines'=>$medicines
         ]);
     }
+
+    public function ViewTestPDF(Request $request, $patient_id, $session_id)
+    {
+        $patient = Patient::where('id', $patient_id)->first();
+        $session = Session::where('patient_id', $patient_id )->where('SessionId', $session_id)->first();
+        $add_test = PatientTest::where('patient_id', $patient_id )->where('session_id', $session_id)->get();
+
+        $pdf = PDF::loadView('testpdfview', ['patient'=>$patient,'session'=>$session, 'tests'=>$add_test]);
+        return $pdf->download('testpdfview.pdf');
+    }
     //after enroll a new patient
 
 
@@ -361,14 +372,5 @@ class PatientController extends Controller
 //    }
 
 
-
-//    public function PdfView(HttpRequest $request, $patient_id)
-//    {
-//        $patients = Patient::where('id', $patient_id)->first();
-//        $tests = Test::orderBy('created_at')->where('patient_id', $patient_id)->get();
-////        $pdf = PDF::loadView('pdfview', ['patients'=>$patients]);
-//        $pdf = PDF::loadView('pdfview', ['patients'=>$patients, 'tests'=>$tests]);
-//        return $pdf->download('pdfview.pdf');
-//    }
 
 }

@@ -55,20 +55,21 @@
                             <label class="col-sm-3 col-md-3 control-label no-padding-right" for="form-field-1-1">Tests (if any):</label>
                             <div class="col-sm-9 col-md-9" style="margin-top: 7px;">
                                 <ol>
-                                @foreach($tests as $test)
-                                    {{--<div class="col-sm-6 col-md-6">--}}
-                                            <li>
-                                                <p>{{ App\Test::where('Testid', $test->test_id)->first()->TestName }}</p>
-                                            </li>
+                                    @foreach($tests as $test)
+                                        {{--<div class="col-sm-6 col-md-6">--}}
+                                                <li>
+                                                    <p>{{ App\Test::where('Testid', $test->test_id)->first()->TestName }}</p>
+                                                </li>
 
-                                        {{--<input disabled class="form-check-input" id="test_name[]" type="checkbox" name="test_name[]" value="{{ $test->test_id }}" style="margin-right: 5px;">--}}
-                                    {{--</div>--}}
-                                @endforeach
-                                    <li>
-                                        <p>{{ App\Test::where('Testid', $test->test_id)->first()->TestName }}</p>
-                                    </li>
+                                            {{--<input disabled class="form-check-input" id="test_name[]" type="checkbox" name="test_name[]" value="{{ $test->test_id }}" style="margin-right: 5px;">--}}
+                                        {{--</div>--}}
+                                    @endforeach
                                 </ol>
 
+                            </div>
+
+                            <div class="col-md-6 col-xs-6 col-md-offset-4" style="margin-bottom: 7px;">
+                                <a class="btn" href="{{ route('patient.test_pdf', ['patient_id'=>$patient->id, 'session_id'=>$session->SessionId]) }}" style="text-decoration: none; background-color: #4CAF50;color: #FFF;">Download Test Names</a>
                             </div>
                         </div>
 
