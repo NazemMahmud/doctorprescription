@@ -32,9 +32,10 @@ Route::get('/test-session', 'PatientController@TestSession')->name('patient.test
 //Route::get('/create-session', 'PatientController@CreateSession')->name('patient.create_session');
 
 Route::prefix('dct')->group(function () {
-    Route::get('/dct/sign', 'Auth\DoctorLoginController@showLoginForm')->name('doctor.login');
-    Route::post('/dct/sign', 'Auth\DoctorLoginController@login')->name('doctor.login.submit');
-Route::post('/dct/logout', 'Auth\DoctorLoginController@logout')->name('doctor.logout');
+    Route::get('/sign', 'Auth\DoctorLoginController@showLoginForm')->name('doctor.login');
+    Route::post('/sign', 'Auth\DoctorLoginController@login')->name('doctor.login.submit');
+    Route::post('/signup', 'Auth\DoctorRegisterController@register')->name('doctor.register');
+Route::post('/logout', 'Auth\DoctorLoginController@logout')->name('doctor.logout');
 });
 
 

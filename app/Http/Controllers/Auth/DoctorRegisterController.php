@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class DoctorRegistrationController extends Controller
+class DoctorRegisterController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('guest');  // guest = middleware ; web = guard default guard
+        $this->middleware('guest:doctor');  // guest = middleware ; web = guard default guard
 // guest = middleware ; admin = guard ; ['except'=>['logout'] = except logout method; noile loguot korar jonno w age log out korte hobe :(
 //        $this->middleware('guest:admin', ['except'=>['logout']] );
     }
@@ -23,26 +23,28 @@ class DoctorRegistrationController extends Controller
 
     public function register(Request $request)
     {
-//        $this->validate($request, [
-//            'name' => 'required|string|max:255',
-//            'email' => 'required|string|email|max:255|unique:doctors',
-//            'password' => 'required|string|min:6|confirmed',
-//        ]);
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:doctors',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
 //        //         take data from front-end form
-//        $name = $request['name'];
-//        $email = $request['email'];
-//        $password = bcrypt($request['password']);
-////
+        $name = $request['name'];
+        $email = $request['email'];
+        $password = bcrypt($request['password']);
+
 ////        store data into db column
-//        $doctor = new Doctor();
-//        $doctor->name = $name ;
-//        $doctor->email = $email;
-//        $doctor->password = $password ;
-//        $doctor->save(); //        save data
+        $doctor = new Doctor();
+        $doctor->name = $name ;
+        $doctor->email = $email;
+        $doctor->password = $password ;
+        $doctor->save(); //        save data
 //
+        Auth::guard('doctor')->login($doctor);
 //        Auth::login($doctor);// for doctor login;  // for user login; Auth::guard('admin')->login($admin);
 //
-//        return redirect()->route('doctor.dashboard');
+        return redirect()->route('doctor.dashboard');
+//        return redirect()->intended(route('doctor.dashboard'));
 
 //        if (Auth::guest()) {
 //            return view('welcome');

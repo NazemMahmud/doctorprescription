@@ -49,7 +49,7 @@
             </div>
             <div id="signup" class="tab-pane">
                 {{--{{ route('registration') }}--}}
-                <form class="form-horizontal" method="POST" action="">
+                <form class="form-horizontal" method="POST" action="{{ route('doctor.register') }}">
                     {{ csrf_field() }}
                     <p class="text-muted text-center">Create a new account</p>
 
