@@ -198,12 +198,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($sessions as $session)
                                     <tr class="info">
-                                        <td style="text-align: center">{{ $sessions->SessionId }}</td>
-                                        <td style="text-align: center">{{ $sessions->created_at->format('d-m-Y') }}</td>
-                                        <td style="text-align: center">{{ $sessions->ReturnDate }}</td>
-                                        <td style="text-align: center"><a href="{{ route('patient.session_details', ['patient_id'=>$patient->id, 'session_id'=>$sessions->SessionId]) }}">View Details</a></td>
+                                        <td style="text-align: center">{{ $session->SessionId }}</td>
+                                        <td style="text-align: center">{{ $session->created_at->format('d-m-Y') }}</td>
+                                        <td style="text-align: center">{{ $session->ReturnDate }}</td>
+                                        <td style="text-align: center"><a href="{{ route('patient.session_details', ['patient_id'=>$patient->id, 'session_id'=>$session->SessionId]) }}">View Details</a></td>
                                     </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

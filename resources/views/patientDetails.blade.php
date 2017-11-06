@@ -98,7 +98,7 @@
                                                 <tr class="info">
                                                     @endif
 
-                                                    <td>{{ $cnt }}</td>
+                                                    {{--<td>{{ $cnt }}</td>--}}
                                                     <td>{{ $medicine->medicine_name }}</td>
                                                     <td>{{ $medicine->MedicineDose }}</td>
                                                     <td>{{ $medicine->MedicineDuration }}</td>

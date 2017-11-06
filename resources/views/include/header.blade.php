@@ -23,7 +23,7 @@
             <ul class="nav navbar-nav ">
                 <li class=""><a href=""></a></li>
                 <li class=""><a href=""></a></li>
-                <li class=""><a href="#">Home</a></li>
+                <li class=""><a href="{{ route('doctor.dashboard') }}">Home</a></li>
                 <li class="">
                     <a class="" data-toggle="modal" data-target="#myModal"  href="#">Patient </a>
                     {{--<ul class="dropdown-menu">--}}

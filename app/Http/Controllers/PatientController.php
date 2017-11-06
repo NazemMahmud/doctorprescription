@@ -63,7 +63,7 @@ class PatientController extends Controller
     {
 //        $patients = Patient::orderBy('created_at', 'desc')->where('doctor_id', Auth::id())->get();
         $patient = Patient::where('id', $request['pat-id'])->first();
-        $sessions = Session::where('patient_id', $request['pat-id'])->first();
+        $sessions = Session::where('patient_id', $request['pat-id'])->get();
         $tests = Test::orderBy('Testid')->get();
 //        $session = Session::where('patient_id', $request['pat-id'])->first();
 //        $doctor = Doctor::where('id', $request['doctor_id'])->first();

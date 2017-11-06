@@ -65,7 +65,7 @@
                         @endif
                     </div>
                     <div class="{{ $errors->has('password') ? ' has-error' : '' }}">
-                        <input type="password" required placeholder="password (at least 6 character)" class="form-control middle" id="password" name="password">
+                        <input type="password" required placeholder="password (at least 6 character)" class="form-control middle" id="password" name="password" minlength="6">
                         @if ($errors->has('password'))
                             <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -73,9 +73,25 @@
                         @endif
                     </div>
                     <div class="">
-                        <input id="password_confirm" placeholder="confirm password" class="form-control middle" type="password"  name="password_confirmation" required>
+                        <input id="password_confirm" placeholder="confirm password" class="form-control middle" type="password"  name="password_confirmation" required minlength="6">
                     </div>
                     <br>
+                    <div class="">
+                        <p class="text-muted text-center"><label>Sign Up As</label></p>
+
+                        <div class="text-center">
+                            <ul class="list-inline">
+                                <li><input type="checkbox" name="doc" > Doctor</li>
+                                <li><input type="checkbox" name="pa" > PA</li>
+                                <li><input type="checkbox" name="assistant" > Assistant Doctor</li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="">
+                        
+                    </div>
                     <button class="btn btn-lg btn-success btn-block" type="submit">Register</button>
                     {{--<input type="hidden" name="_token" value="{{ Session::token() }}">--}}
                 </form>
@@ -96,6 +112,7 @@
 
     <!--jQuery -->
     {{--<script src="assets/lib/jquery/jquery.js"></script>--}}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!--Bootstrap -->
     <script src="bootstrap/js/bootstrap.js"></script>
