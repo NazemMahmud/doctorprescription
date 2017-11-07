@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Patient;
+use App\Doctor;
 
 class DoctorController extends Controller
 {
@@ -44,6 +45,13 @@ class DoctorController extends Controller
 //        }else{
 //            return view('welcome');
 //        }//return view('home');
+    }
+    public function ajax(Request $request)
+    {
+        $search = $request['search'];
+
+        $name = Doctor::where('name', $search)->get();
+
     }
 }
 

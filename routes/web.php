@@ -17,6 +17,7 @@
 
 
 Route::get('/', 'DoctorController@index')->name('doctor.dashboard');
+Route::post('/ajax', 'DoctorController@ajax')->name('doctor.ajax');
 Route::post('/create_patient', 'PatientController@CreatePatient')->name('create_patient');
 Route::get('/patient-history', 'PatientController@PatientHistory')->name('patient.history');
 Route::post('/create-session', 'PatientController@CreateSession')->name('patient.create_session');

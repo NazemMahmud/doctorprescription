@@ -75,23 +75,22 @@
                     <div class="">
                         <input id="password_confirm" placeholder="confirm password" class="form-control middle" type="password"  name="password_confirmation" required minlength="6">
                     </div>
+
+                    <div class="signupas" style="">
+                        <select class="form-control middle" name="sign_as" id="sign_as" onchange="signUpAs(this.value);">
+                            <option value="">Sign Up As</option>
+                            <option value="doctor">Doctor</option>
+                            <option value="pa">Personal Assistant</option>
+                            <option value="assistant">Assistant Doctor</option>
+                        </select>
+                    </div>
+
+                    <div class="tab-pane" id="select_doc" style="display:none;">
+                        <input id="which_doc" placeholder="Select Doctor" class="form-control middle" type="text"  name="which_doc" required>
+                    </div>
+                    <div id="searchbox"></div>
                     <br>
-                    <div class="">
-                        <p class="text-muted text-center"><label>Sign Up As</label></p>
 
-                        <div class="text-center">
-                            <ul class="list-inline">
-                                <li><input type="checkbox" name="doc" > Doctor</li>
-                                <li><input type="checkbox" name="pa" > PA</li>
-                                <li><input type="checkbox" name="assistant" > Assistant Doctor</li>
-                            </ul>
-                        </div>
-
-                    </div>
-
-                    <div class="">
-                        
-                    </div>
                     <button class="btn btn-lg btn-success btn-block" type="submit">Register</button>
                     {{--<input type="hidden" name="_token" value="{{ Session::token() }}">--}}
                 </form>
@@ -108,7 +107,11 @@
             </ul>
         </div>
     </div>
-
+    {{--font-weight: normal;--}}
+    {{--display: block;--}}
+    {{--white-space: pre;--}}
+    {{--min-height: 1.2em;--}}
+    {{--padding: 0px 2px 1px;--}}
 
     <!--jQuery -->
     {{--<script src="assets/lib/jquery/jquery.js"></script>--}}
@@ -146,7 +149,6 @@
                     $('#signup').removeClass( "active" );
                     $('#login').removeClass( "active" );
                     $('#forgot').addClass( "active" );
-
                 });
 
             });
@@ -166,5 +168,13 @@
 
         password.onchange = validatePassword;
         confirm_password.onkeyup = validatePassword;
+
+        function signUpAs(type) {
+            if(type== 'pa' || type== 'assistant' ){
+                document.getElementById("select_doc").style.display = "block";
+            }else{
+                document.getElementById("select_doc").style.display = "none";
+            }
+        }
     </script>
 @endsection
