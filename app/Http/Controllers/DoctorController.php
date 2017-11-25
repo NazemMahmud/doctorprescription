@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Patient;
 use App\Doctor;
+use Illuminate\Support\Facades\DB;
 
 class DoctorController extends Controller
 {
@@ -22,7 +23,8 @@ class DoctorController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:doctor'); // default gurad auth:web ; guest dile Auth::guest kaj kore, r auth dile
+        $this->middleware('auth:doctor', ['except'=>['ajax']]); // default gurad auth:web ; guest dile Auth::guest kaj kore, r auth dile
+//        $this->middleware('auth', ['except' => ['getActivate', 'anotherMethod']]);
     }
 
     /**
@@ -48,10 +50,17 @@ class DoctorController extends Controller
     }
     public function ajax(Request $request)
     {
-        $search = $request['search'];
-
-        $name = Doctor::where('name', $search)->get();
-
+        $search = $request['name'];
+        $token = $request["token"];
+        $name = Doctor::where('name','like','%'.$search.'%' )->take(3)->get();
+//        $search_name = DB::table('doctors')->where('name', $search)->get();
+        $returnHTML = view('ajax1')->with('name',$name)->render();
+//        $returnHTML = view('ajax1')->render();
+//        $id = $request['id'];
+//        $id = $id + 1;
+        //if($request->ajax()) {
+            return response()->json(array('success' => true, 'html' => $returnHTML));
+       // }
     }
 }
 

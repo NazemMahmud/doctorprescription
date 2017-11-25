@@ -17,7 +17,7 @@
 
 
 Route::get('/', 'DoctorController@index')->name('doctor.dashboard');
-Route::post('/ajax', 'DoctorController@ajax')->name('doctor.ajax');
+
 Route::post('/create_patient', 'PatientController@CreatePatient')->name('create_patient');
 Route::get('/patient-history', 'PatientController@PatientHistory')->name('patient.history');
 Route::post('/create-session', 'PatientController@CreateSession')->name('patient.create_session');
@@ -33,6 +33,7 @@ Route::get('/test-session', 'PatientController@TestSession')->name('patient.test
 //Route::get('/create-session', 'PatientController@CreateSession')->name('patient.create_session');
 
 Route::prefix('dct')->group(function () {
+    Route::post('/ajax', 'DoctorController@ajax')->name('doctor.ajax');
     Route::get('/sign', 'Auth\DoctorLoginController@showLoginForm')->name('doctor.login');
     Route::post('/sign', 'Auth\DoctorLoginController@login')->name('doctor.login.submit');
     Route::post('/signup', 'Auth\DoctorRegisterController@register')->name('doctor.register');

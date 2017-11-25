@@ -1,7 +1,7 @@
 /**
  * Created by Nazem Mahmud on 11/7/2017.
  */
-function fill(Value) {
+/*function fill(Value) {
     $('#search').val(Value);
 
     //Hiding "display" div in "search.php" file.
@@ -9,28 +9,38 @@ function fill(Value) {
     $('#display').hide();
 
 }
-
+*/
 $(document).ready(function() {
-    $("#search").keyup(function() {      //On pressing a key on "Search box" in "search.php" file. This function will be called.
-        var name = $('#search').val();
-        if (name == "") {           //Validating, if "name" is empty.
-            $("#searchbox").html("");              //Assigning empty value to "display" div in "search.php" file.
+    // $.ajax({
+    //     type: "POST",
+    //     url: "ajax.php",
+    //     data: {
+    //         search: name
+    //     },
+    //     success: function(html) {                  //If result found, this funtion will be called.
+    //         $("#display").html(html).show();
+    //     }
+    // });
+
+    $("#which_doc").keyup(function() { //On pressing a key on This function will be called
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        var name = $('#which_doc').val();
+        var _token = $("#token").val();
+        if (name == "") {
+            $("#searchbox").html("");
         }
         else {
-            $.ajax({
-                type: "POST",
-                url: "/ajax",
-                data: {
-                    search: name
-                },
-                success: function(html) {                 //If result found, this funtion will be called.
-                    $("#searchbox").html(html).show();                     //Assigning result to "display" div in "search.php" file.
-
-                }
-            });
+            $.post( "ajax", { token: _token, name: name },
+                function( data ) {
+                    // console.log( "ajax working");
+                    $('#searchbox').html(data.html);
+                }, "json");
 
         }
-
     });
-
 });

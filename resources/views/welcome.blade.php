@@ -51,6 +51,7 @@
                 {{--{{ route('registration') }}--}}
                 <form class="form-horizontal" method="POST" action="{{ route('doctor.register') }}">
                     {{ csrf_field() }}
+                    <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                     <p class="text-muted text-center">Create a new account</p>
 
                     <div class="{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -75,7 +76,6 @@
                     <div class="">
                         <input id="password_confirm" placeholder="confirm password" class="form-control middle" type="password"  name="password_confirmation" required minlength="6">
                     </div>
-
                     <div class="signupas" style="">
                         <select class="form-control middle" name="sign_as" id="sign_as" onchange="signUpAs(this.value);">
                             <option value="">Sign Up As</option>
@@ -107,19 +107,16 @@
             </ul>
         </div>
     </div>
-    {{--font-weight: normal;--}}
-    {{--display: block;--}}
-    {{--white-space: pre;--}}
-    {{--min-height: 1.2em;--}}
-    {{--padding: 0px 2px 1px;--}}
+
 
     <!--jQuery -->
     {{--<script src="assets/lib/jquery/jquery.js"></script>--}}
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!--Bootstrap -->
-    <script src="bootstrap/js/bootstrap.js"></script>
 
+    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>--}}
+    <!--Bootstrap -->
+    {{--<script src="bootstrap/js/bootstrap.js"></script>--}}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/searchbox.js"></script>
 
     <script type="text/javascript">
         (function($) {
