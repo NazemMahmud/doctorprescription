@@ -48,6 +48,13 @@ class DoctorController extends Controller
 //            return view('welcome');
 //        }//return view('home');
     }
+
+    public function approval(Request $request)
+    {
+//        $sub_doc = Doctor::where('id', $listid)->first();
+        return view('doctor_approval'); // doctor
+//        return view('doctor_approval', ['sub_doc'=>$sub_doc]); // doctor
+    }
     public function ajax(Request $request)
     {
         $search = $request['name'];

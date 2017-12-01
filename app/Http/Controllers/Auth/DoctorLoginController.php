@@ -30,9 +30,20 @@ class DoctorLoginController extends Controller
             'password' => 'required|min:6'
         ]);
         //attempt to log user
-        if(Auth::guard('doctor')->attempt(['email'=> $request->email, 'password'=>$request->password], $request->remember )){
-            return redirect()->intended(route('doctor.dashboard'));
+        $doc_check = Doctor::where('email',$request->email )->first();
+        $active = $doc_check->active ;
+        $admin_type = $doc_check->admin_type ;
+        if($admin_type== 'doctor'){
+            if(Auth::guard('doctor')->attempt(['email'=> $request->email, 'password'=>$request->password], $request->remember )){
+                return redirect()->intended(route('doctor.dashboard'));
+            }
         }
+        else if($admin_type!= 'doctor' && $active== 0){
+            if(Auth::guard('doctor')->attempt(['email'=> $request->email, 'password'=>$request->password], $request->remember )){
+                return redirect()->route('doctor.approval');
+            }
+        }
+
 
         //if unsuccess, redirect back login with form data
         return redirect()->back()->withInput($request->only('email','remember'));

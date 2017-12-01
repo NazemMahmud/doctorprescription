@@ -23,7 +23,9 @@ class CreateDoctorsTable extends Migration
             $table->string('address')->nullable();
             $table->string('chamber_address')->nullable();
             $table->string('hospital_name')->nullable();
-            $table->string('admin_type')->nullable();
+            $table->string('admin_type')->nullable(); // newly added
+            $table->integer('active')->nullable(); // newly added
+            $table->integer('senior_docid')->nullable(); // newly added
             $table->rememberToken();
             $table->timestamps();
 

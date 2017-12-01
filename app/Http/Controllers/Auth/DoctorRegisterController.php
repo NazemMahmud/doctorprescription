@@ -33,17 +33,41 @@ class DoctorRegisterController extends Controller
         $email = $request['email'];
         $password = bcrypt($request['password']);
 
-////        store data into db column
-        $doctor = new Doctor();
-        $doctor->name = $name ;
-        $doctor->email = $email;
-        $doctor->password = $password ;
-        $doctor->save(); //        save data
-//
-        Auth::guard('doctor')->login($doctor);
+        $sign_as = $request['sign_as'];
+        if($sign_as == 'doctor'){
+            //        store data into db column
+            $doctor = new Doctor();
+            $doctor->name = $name ;
+            $doctor->email = $email;
+            $doctor->password = $password ;
+            $doctor->admin_type = $sign_as ;
+            $doctor->active = 1 ;
+            $doctor->save(); //        save data
+
+            Auth::guard('doctor')->login($doctor);
 //        Auth::login($doctor);// for doctor login;  // for user login; Auth::guard('admin')->login($admin);
 //
-        return redirect()->route('doctor.dashboard');
+            return redirect()->route('doctor.dashboard');
+        }else{
+            $which_doc = $request['which_doc'];
+            $doc = Doctor::where('name', $which_doc)->first();
+            $doc_id = $doc->id;
+
+            $doctor = new Doctor();
+            $doctor->name = $name ;
+            $doctor->email = $email;
+            $doctor->password = $password ;
+            $doctor->admin_type = $sign_as ;
+            $doctor->active = 0 ;
+            $doctor->senior_docid = $doc_id ;
+            $doctor->save(); //        save data
+//            $id = $doctor->id;
+            Auth::guard('doctor')->login($doctor);
+            return redirect()->route('doctor.approval');
+//            return redirect()->route('doctor.approval',['listid'=>$id] );
+        }
+
+
 //        return redirect()->intended(route('doctor.dashboard'));
 
 //        if (Auth::guest()) {

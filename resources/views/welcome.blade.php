@@ -12,9 +12,6 @@
             <div id="login" class="tab-pane active">
                 <form action="{{ route('doctor.login.submit') }}" method="post" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <p class="text-muted text-center">
-                        Enter your username and password
-                    </p>
                     <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
                         <input type="text" placeholder="Email" name="email" class="form-control top" required>
                         @if ($errors->has('email'))
@@ -77,8 +74,8 @@
                         <input id="password_confirm" placeholder="confirm password" class="form-control middle" type="password"  name="password_confirmation" required minlength="6">
                     </div>
                     <div class="signupas" style="">
-                        <select class="form-control middle" name="sign_as" id="sign_as" onchange="signUpAs(this.value);">
-                            <option value="">Sign Up As</option>
+                        <select class="form-control middle" name="sign_as" id="sign_as" onchange="signUpAs(this.value);" required>
+                            <option value="doctor">Sign Up As</option>
                             <option value="doctor">Doctor</option>
                             <option value="pa">Personal Assistant</option>
                             <option value="assistant">Assistant Doctor</option>
@@ -86,9 +83,10 @@
                     </div>
 
                     <div class="tab-pane" id="select_doc" style="display:none;">
-                        <input id="which_doc" placeholder="Select Doctor" class="form-control middle" type="text"  name="which_doc" required>
+                        <input id="which_doc" placeholder="Select Doctor" class="form-control middle" type="text"  name="which_doc" >
+                        <div id="searchbox"></div>
                     </div>
-                    <div id="searchbox"></div>
+                    {{--<div id="searchbox"></div>--}}
                     <br>
 
                     <button class="btn btn-lg btn-success btn-block" type="submit">Register</button>
@@ -116,7 +114,7 @@
     <!--Bootstrap -->
     {{--<script src="bootstrap/js/bootstrap.js"></script>--}}
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="/js/searchbox.js"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/searchbox.js') }}"></script>
 
     <script type="text/javascript">
         (function($) {
