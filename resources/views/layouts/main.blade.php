@@ -36,18 +36,46 @@
 <body style="background-color: #e9ebee;">
 @include('include.header')
 @yield('main-body')
-<!--jQuery -->
-{{--<script src="assets/lib/jquery/jquery.js"></script>--}}
 
-
-
-<!--Bootstrap -->
-{{--<script src="bootstrap/js/bootstrap.js"></script>--}}
 <script>
-    $(document).ready(function () {
-        $('.dropdown-toggle').dropdown();
+    $(document).ready(function(){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        var _token = $("#token").val();
+
+        function load_unseen_notification(view = '')
+        {
+            $.post( "fetch_msg", { token: _token, view: view }, function( data ) {
+                console.log( data.unseen_notification); //#dropdown-notification
+                console.log( view );
+                $('#dropdown-notification').html(data.notification);
+                if(data.unseen_notification > 0)
+                {
+                    $('.count').css('display', 'block');
+                    $('.count').html(data.unseen_notification);
+                }
+            }, "json");
+        }
+
+        load_unseen_notification();    // on page load this function will be called; goto function load_unseen_notification(view = '')
+
+        $(document).on('click', '.dropdown-toggle', function(){
+            $('.count').html('');
+            $('.count').css('display', 'none');
+            load_unseen_notification('yes'); // yes likhe pathale view =yes hoy i.e. view!=''; so comment status update hoy
+        });
+
+        setInterval(function(){
+            load_unseen_notification();
+        }, 5000);
+
     });
 </script>
+
 </body>
 </html>
 

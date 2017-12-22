@@ -18,6 +18,7 @@
 
 Route::get('/', 'DoctorController@index')->name('doctor.dashboard');
 Route::get('/aprv', 'DoctorController@approval')->name('doctor.approval');
+Route::post('/fetch_msg', 'DoctorController@Notification')->name('doctor.notification');
 
 Route::post('/create_patient', 'PatientController@CreatePatient')->name('create_patient');
 Route::get('/patient-history', 'PatientController@PatientHistory')->name('patient.history');

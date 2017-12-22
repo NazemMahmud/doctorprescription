@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">
                 </div>
-                <button type="submit" class="btn btn-default" style="display: none;">Submit</button>
+                {{--<button type="submit" class="btn btn-default" style="display: none;">Submit</button>--}}
             </form>
             <ul class="nav navbar-nav ">
                 <li class=""><a href=""></a></li>
@@ -37,6 +37,14 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle glyphicon glyphicon-envelope" data-toggle="dropdown" style="font-size:18px;">
+                        <span class="label label-pill label-danger  count" style="border-radius:9px;font-size: 12px; position: absolute; top: 8px; right: 5px; display: none;" > <!--label-danger class-->
+<!--               <span class="glyphicon glyphicon-envelope" style="font-size:18px;"></span>-->
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu" id="dropdown-notification"></ul>
+                </li>
                 <li><a href="#"><span class="glyphicon glyphicon-user"></span>{{ Auth::user()->name }}</a></li>
                 <li>
                     <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Doctor;
+use App\Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +62,19 @@ class DoctorRegisterController extends Controller
             $doctor->active = 0 ;
             $doctor->senior_docid = $doc_id ;
             $doctor->save(); //        save data
-//            $id = $doctor->id;
+
+            $notification = new Notification();
+            $notification->to_doc_id = $doc_id ; // notification to which doctor
+//            $notification->notification_text = $name.' '. $email; // Nou ish requested to be your Personal Assistant
+            $notification->from_doc_id = $doctor->id ;
+            if($sign_as == 'pa') {
+                $notification->notification_type = 'request pa'; // as personal assistant
+            }else if($sign_as == 'assistant') {
+                $notification->notification_type = 'request assistant'; // assistant doctor
+            }
+//            $notification->notification_status = 0 ; // by default 0 ; accept korle 1, means seen
+            $notification->save(); //        save data
+
             Auth::guard('doctor')->login($doctor);
             return redirect()->route('doctor.approval');
 //            return redirect()->route('doctor.approval',['listid'=>$id] );
