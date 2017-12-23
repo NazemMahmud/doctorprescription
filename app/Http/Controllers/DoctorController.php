@@ -76,20 +76,42 @@ class DoctorController extends Controller
         $token = $request["token"];
         if($request["view"] != '')
         {
-                $update_query =Notification::where('to_doc_id', Auth::id())->where('notification_status', 0)->update(['notification_status' => 1]); //"UPDATE comments SET comment_status=1 WHERE comment_status=0";
-//                Answer::where('question_id', 2)->update(['customer_id' => 1, 'answer' => 2]);
+            $update_query =Notification::where('to_doc_id', Auth::id())->where('notification_status', 0)->update(['notification_status' => 1]); //"UPDATE comments SET comment_status=1 WHERE comment_status=0";
+//          Answer::where('question_id', 2)->update(['customer_id' => 1, 'answer' => 2]);
         }
         $notifications = Notification::where('to_doc_id', Auth::id())->get(); //"SELECT * FROM comments ORDER BY comment_id DESC LIMIT 5"; $result = mysqli_query($connect, $query);
-////            $notificationCount = $notification->count();
-        $returnHTML = view('notification_fetch')->with('notifications',$notifications)->render();
+//      $notificationCount = $notification->count();
+        $msg = ' ';
+        $returnHTML = view('notification_fetch')->with(['notifications'=>$notifications, 'msg'=>$msg])->render();
 
         $query_1 = Notification::where('to_doc_id', Auth::id())->where('notification_status', 0)->get(); //"SELECT * FROM comments WHERE comment_status=0";  $result_1 = mysqli_query($connect, $query_1);
         $count = $query_1->count();      //$result_1);
         return response()->json(array('success' => true, 'notification' => $returnHTML, 'unseen_notification' => $count ));
+    }
+
+    public function request_handle(Request $request)
+    {
+        $notifications = Notification::where('to_doc_id', Auth::id())->get();
+        $notification_id = $request['notification_id'];
+        $request_value = $request['request_value']; // yes / no
+
+        $notification = Notification::where('notification_id', $notification_id)->first();
+        $notification_type = $notification->notification_type; // request pa / request assistant / .....
+//        $doctor_id = $notification->from_doc_id;
+
+        $msg = '';
+        if($request_value=='yes'){ //
+            $update_query1 =Notification::where('notification_id', $notification_id)->update(['accept_status' => 1]);
+            $update_query2 =Doctor::where('id', $notification->from_doc_id)->update(['active' => 1]);
+        }
+        else if($request_value=='no'){
+            $update_query =Notification::where('notification_id', $notification_id)->update(['accept_status' => 2]);
+        }
+
+        $returnHTML = view('notification_fetch')->with(['notifications'=>$notifications])->render();
 
 
-
-
+        return response()->json(array('notification' => $returnHTML));
     }
 }
 
