@@ -39,7 +39,12 @@ class DoctorController extends Controller
 //            return view('welcome');
 //        }
         $patients = Patient::orderBy('created_at', 'desc')->where('doctor_id', Auth::id())->get();
-//        return view('dashboard', ['patients'=>$patients]);
+        $doctor = Doctor::where('id', Auth::id())->first();
+        $user_type = $doctor->admin_type;
+        if($user_type!='doctor'){
+            $user_senior = $doctor->senior_docid;
+            $patients = Patient::orderBy('created_at', 'desc')->where('doctor_id', $user_senior)->get();
+        }
         return view('doctor', ['patients'=>$patients]); // doctor
 //        if (Auth::check()) {
 ////            return redirect('/home');
@@ -50,13 +55,13 @@ class DoctorController extends Controller
 //        }//return view('home');
     }
 
-    public function approval(Request $request)
+    public function approval(Request $request) // when someone open account as PA or assistant doc, then this method is called
     {
 //        $sub_doc = Doctor::where('id', $listid)->first();
         return view('doctor_approval'); // doctor
 //        return view('doctor_approval', ['sub_doc'=>$sub_doc]); // doctor
     }
-    public function ajax(Request $request)
+    public function ajax(Request $request) // on key doctor name show up @ sign as PA or assistant doc
     {
         $search = $request['name'];
         $token = $request["token"];
@@ -71,7 +76,7 @@ class DoctorController extends Controller
        // }
     }
 
-    public function Notification(Request $request)
+    public function Notification(Request $request) // Notification ; At present only for PA / Assistant Doc request
     {
         $token = $request["token"];
         if($request["view"] != '')
@@ -79,8 +84,8 @@ class DoctorController extends Controller
             $update_query =Notification::where('to_doc_id', Auth::id())->where('notification_status', 0)->update(['notification_status' => 1]); //"UPDATE comments SET comment_status=1 WHERE comment_status=0";
 //          Answer::where('question_id', 2)->update(['customer_id' => 1, 'answer' => 2]);
         }
-        $notifications = Notification::where('to_doc_id', Auth::id())->get(); //"SELECT * FROM comments ORDER BY comment_id DESC LIMIT 5"; $result = mysqli_query($connect, $query);
-//      $notificationCount = $notification->count();
+        $notifications = Notification::where('to_doc_id', Auth::id())->where('accept_status', 0)->get(); //"SELECT * FROM comments ORDER BY comment_id DESC LIMIT 5"; $result = mysqli_query($connect, $query);
+        $delete_request = Notification::where('accept_status', '>', 0)->delete();
         $msg = ' ';
         $returnHTML = view('notification_fetch')->with(['notifications'=>$notifications, 'msg'=>$msg])->render();
 
@@ -89,7 +94,7 @@ class DoctorController extends Controller
         return response()->json(array('success' => true, 'notification' => $returnHTML, 'unseen_notification' => $count ));
     }
 
-    public function request_handle(Request $request)
+    public function request_handle(Request $request) // PA/ Assistant doc request Accept/ Reject
     {
         $notifications = Notification::where('to_doc_id', Auth::id())->get();
         $notification_id = $request['notification_id'];
@@ -109,7 +114,6 @@ class DoctorController extends Controller
         }
 
         $returnHTML = view('notification_fetch')->with(['notifications'=>$notifications])->render();
-
 
         return response()->json(array('notification' => $returnHTML));
     }

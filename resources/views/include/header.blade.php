@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                 <span class="icon-bar"></span>
@@ -20,21 +20,6 @@
                 </div>
                 {{--<button type="submit" class="btn btn-default" style="display: none;">Submit</button>--}}
             </form>
-            <ul class="nav navbar-nav ">
-                <li class=""><a href=""></a></li>
-                <li class=""><a href=""></a></li>
-                <li class=""><a href="{{ route('doctor.dashboard') }}">Home</a></li>
-                <li class="">
-                    <a class="" data-toggle="modal" data-target="#myModal"  href="#">Patient </a>
-                    {{--<ul class="dropdown-menu">--}}
-                        {{--<li><a href="#">Create Patient</a></li>--}}
-                        {{--<li><a href="#">Patient List</a></li>--}}
-                        {{--<li><a href="#">Page 1-3</a></li>--}}
-                    {{--</ul>--}}
-                </li>
-                {{--<li><a href="#">Patient</a></li>--}}
-                {{--<li><a href="#">Page 3</a></li>--}}
-            </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -45,15 +30,30 @@
                     </a>
                     <ul class="dropdown-menu" id="dropdown-notification"></ul>
                 </li>
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span>{{ Auth::user()->name }}</a></li>
-                <li>
-                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                        <span class="glyphicon glyphicon-log-in"></span> Logout
-                    </a>
-                    <form id="logout-form" action="{{ route('doctor.logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>{{ Auth::user()->name }}</a>
+                    <div class="dropdown-menu" >
+                        <a class="dropdown-item" href="#" style="color: #000;">Account</a>
+                        @if( App\Doctor::where('id',Auth::id())->first()->admin_type == 'doctor')
+                            <div class="dropdown-divider" style=""></div>
+                            <a class="dropdown-item" href="#" style="color: #000;">Assistants</a>
+                        @endif
+                        <div class="dropdown-divider" style=""></div>
+                        <a href="#" class="dropdown-item" style="color: #000;" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout
+                            {{-- <span class="glyphicon glyphicon-log-in"></span>  --}}
+                        </a>
+                        <form id="logout-form" action="{{ route('doctor.logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </div>
                 </li>
+                <li>
+
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right ">
+                <li class="" sty><a href="{{ route('doctor.dashboard') }}">Home</a></li>
+                <li class=""> <a class="" data-toggle="modal" data-target="#myModal"  href="#">Enroll </a> </li>
             </ul>
 
             <!-- Modal -->
@@ -101,7 +101,6 @@
                 </div>
             </div>
 
-        </div>
         </div>
     </div>
 </nav>

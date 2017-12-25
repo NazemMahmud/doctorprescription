@@ -33,7 +33,7 @@ class DoctorLoginController extends Controller
         $doc_check = Doctor::where('email',$request->email )->first();
         $active = $doc_check->active ;
         $admin_type = $doc_check->admin_type ;
-        if($admin_type== 'doctor'){
+        if($admin_type== 'doctor' && $active== 1){
             if(Auth::guard('doctor')->attempt(['email'=> $request->email, 'password'=>$request->password], $request->remember )){
                 return redirect()->intended(route('doctor.dashboard'));
             }
@@ -41,6 +41,11 @@ class DoctorLoginController extends Controller
         else if($admin_type!= 'doctor' && $active== 0){
             if(Auth::guard('doctor')->attempt(['email'=> $request->email, 'password'=>$request->password], $request->remember )){
                 return redirect()->route('doctor.approval');
+            }
+        }
+        else if($admin_type!= 'doctor' && $active== 1){
+            if(Auth::guard('doctor')->attempt(['email'=> $request->email, 'password'=>$request->password], $request->remember )){
+                return redirect()->route('doctor.dashboard');
             }
         }
 

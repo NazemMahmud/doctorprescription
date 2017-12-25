@@ -23,22 +23,13 @@
                     @elseif($notification->accept_status==2)
                             <p><strong>{{ App\Doctor::where('id',$notification->from_doc_id)->first()->name }}</strong>'s request is rejected  </p>
                     @endif
-
                 </a>
-
-            {{--</div>--}}
-            {{--<div class="col-md-12 col-xs-12 col-sm-12">--}}
-
-
-            {{--</div>--}}
-
-
         </li>
         <li class="divider"></li>
     @endforeach
 
-@elseif(count( $patients)<=0)
-    <li><a href="#" class="text-bold text-italic">No Notification Found</a></li>
+@elseif(count( $notifications)<=0)
+    <li ><a href="#" class="text-bold text-italic dropdown-item" style="color: #000;">No New Request</a></li>
 @endif
 
 <script>
@@ -56,7 +47,7 @@
         e.stopPropagation();
     });
     $(".request_reject").on("click", function(e){
-        
+
         e.stopPropagation();
     });
 </script>

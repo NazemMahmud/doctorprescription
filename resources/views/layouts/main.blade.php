@@ -25,8 +25,7 @@
     <link rel="stylesheet" href="{{ URL::to('css/style.css') }}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
     {{--<link rel="stylesheet" href="/resources/demos/style.css">--}}
 
@@ -39,7 +38,19 @@
 <body style="background-color: #e9ebee;">
 @include('include.header')
 @yield('main-body')
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+{{--CUSTOM SCRIPT--}}
+
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>--}}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.selectpicker').selectpicker();
+    });
+</script>
 <script>
     $(document).ready(function(){
         $.ajaxSetup({
@@ -52,7 +63,7 @@
 
         function load_unseen_notification(view = '')
         {
-            $.post( "fetch_msg", { token: _token, view: view }, function( data ) {
+            $.post( "/fetch_msg", { token: _token, view: view }, function( data ) {
                 console.log( data.unseen_notification); //#dropdown-notification
                 console.log( view );
                 $('#dropdown-notification').html(data.notification);
@@ -72,9 +83,9 @@
             load_unseen_notification('yes'); // yes likhe pathale view =yes hoy i.e. view!=''; so comment status update hoy
         });
 
-//        setInterval(function(){
-//            load_unseen_notification();
-//        }, 5000);
+        setInterval(function(){
+            load_unseen_notification();
+        }, 8000);
 
 
 

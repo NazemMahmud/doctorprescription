@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 ini_set('max_execution_time', 300);
 
 //use App\Medicine;
+use App\Doctor;
 use App\Patient;
 use App\PatientTest;
 use App\PatientMedicine;
@@ -15,7 +16,6 @@ use PDF;
 //use Barryvdh\DomPDF\Facade as PDF; // for PDF at line 76  $pdf = PDF::loadView('pdfview', ['patient'=>$patient]);;
 //use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
-use App\Doctor;
 use Illuminate\Http\Request;
 //use Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +27,7 @@ class PatientController extends Controller
         $this->middleware('auth:doctor'); // default gurad auth:web ; guest dile Auth::guest kaj kore, r auth dile
     }
 
-    public function CreatePatient(Request $request) // post type
+    public function CreatePatient(Request $request) // post type ; new patient enrollment
     {
         //        validation...
         $this->validate($request, [
@@ -37,8 +37,14 @@ class PatientController extends Controller
         ]);
 
         $patient = new Patient();
-        $user = Auth::user();
-//
+//        $user = Auth::user();
+        $user = Doctor::where('id', Auth::id())->first();
+        $user_type = $user->admin_type;
+//        if($user_type!='doctor'){
+//            $user_senior = $user->senior_docid;
+//            $user = Doctor::where('id', $user_senior)->first();
+//        }
+
         $patient->PatientName = $request['patient_name'];
         $patient->PatientAge = $request['patient_age'];
         $patient->PatientMobile_no = $request['patient_mobile'];

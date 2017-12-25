@@ -72,7 +72,8 @@ class DoctorRegisterController extends Controller
             }else if($sign_as == 'assistant') {
                 $notification->notification_type = 'request assistant'; // assistant doctor
             }
-//            $notification->notification_status = 0 ; // by default 0 ; accept korle 1, means seen
+            $notification->notification_status = 0 ; // by default 0 ; accept korle 1, means seen
+            $notification->accept_status = 0 ; // by default 0 ; accept korle 1, reject korle 2
             $notification->save(); //        save data
 
             Auth::guard('doctor')->login($doctor);
