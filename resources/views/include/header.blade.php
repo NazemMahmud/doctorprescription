@@ -23,20 +23,21 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle glyphicon glyphicon-envelope" data-toggle="dropdown" style="font-size:18px;">
-                        <span class="label label-pill label-danger  count" style="border-radius:9px;font-size: 12px; position: absolute; top: 8px; right: 5px; display: none;" > <!--label-danger class-->
+                    <a href="#" class="dropdown-toggle " id="dropdown-request" data-toggle="dropdown" style="font-size:16px;margin-left: 12px;">
+                        <span class="glyphicon glyphicon-user" style="margin-right: -25px;"></span><span class="glyphicon glyphicon-user" style=""></span>
+                        <span class="label label-pill label-danger  count" style="border-radius:3px;font-size: 12px; position: absolute; top: 3px; right: 0px; display: none;" > <!--label-danger class-->
 <!--               <span class="glyphicon glyphicon-envelope" style="font-size:18px;"></span>-->
                         </span>
                     </a>
                     <ul class="dropdown-menu" id="dropdown-notification"></ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>{{ Auth::user()->name }}</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class=""></span>{{ Auth::user()->name }}</a>
                     <div class="dropdown-menu" >
                         <a class="dropdown-item" href="#" style="color: #000;">Account</a>
                         @if( App\Doctor::where('id',Auth::id())->first()->admin_type == 'doctor')
                             <div class="dropdown-divider" style=""></div>
-                            <a class="dropdown-item" href="#" style="color: #000;">Assistants</a>
+                            <a class="dropdown-item" href="{{ route('doctor.assistants') }}" style="color: #000;">Assistants</a>
                         @endif
                         <div class="dropdown-divider" style=""></div>
                         <a href="#" class="dropdown-item" style="color: #000;" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout

@@ -15,18 +15,7 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->increments('permissionId');
-
-            $table->integer('CreatePatient')->default(0); // to which doctor
-            $table->integer('ViewAllPatient')->default(0);
-            $table->integer('ViewPatientDetails')->default(0);
-            $table->integer('CreateSession')->default(0);
-            $table->integer('EditSession')->default(0);
-            $table->integer('ViewAllSession')->default(0);
-            $table->integer('ViewSessionDetails')->default(0);
-            $table->integer('DownloadTest')->default(0);
-
-            $table->integer('doctorId')->nullable();
-
+            $table->string('permissionName'); // to which doctor
             $table->timestamps();
         });
     }

@@ -8,7 +8,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DoctorPermission;
 use App\Notification;
+use App\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Patient;
@@ -85,7 +87,7 @@ class DoctorController extends Controller
 //          Answer::where('question_id', 2)->update(['customer_id' => 1, 'answer' => 2]);
         }
         $notifications = Notification::where('to_doc_id', Auth::id())->where('accept_status', 0)->get(); //"SELECT * FROM comments ORDER BY comment_id DESC LIMIT 5"; $result = mysqli_query($connect, $query);
-        $delete_request = Notification::where('accept_status', '>', 0)->delete();
+//        $delete_request = Notification::where('accept_status', '>', 0)->delete();
         $msg = ' ';
         $returnHTML = view('notification_fetch')->with(['notifications'=>$notifications, 'msg'=>$msg])->render();
 
@@ -102,12 +104,21 @@ class DoctorController extends Controller
 
         $notification = Notification::where('notification_id', $notification_id)->first();
         $notification_type = $notification->notification_type; // request pa / request assistant / .....
-//        $doctor_id = $notification->from_doc_id;
+        $doctor_id = $notification->from_doc_id;
 
         $msg = '';
         if($request_value=='yes'){ //
             $update_query1 =Notification::where('notification_id', $notification_id)->update(['accept_status' => 1]);
             $update_query2 =Doctor::where('id', $notification->from_doc_id)->update(['active' => 1]);
+
+            for($i =1 ; $i<=7 ; $i++) {
+                    //                $table->increments('DP_Id');
+                    $add_permission = new DoctorPermission();
+                    $add_permission->permission_Id = $i;
+                    $add_permission->doc_Id = $doctor_id;
+                    $add_permission->active = 0;
+                    $add_permission->save();
+            }
         }
         else if($request_value=='no'){
             $update_query =Notification::where('notification_id', $notification_id)->update(['accept_status' => 2]);
@@ -116,6 +127,64 @@ class DoctorController extends Controller
         $returnHTML = view('notification_fetch')->with(['notifications'=>$notifications])->render();
 
         return response()->json(array('notification' => $returnHTML));
+    }
+
+    public function Assistants(Request $request) // for assistants page
+    {
+        $doctor = Doctor::where('id', Auth::id())->first();
+        $assistants = Doctor::where('senior_docid', Auth::id())->where('active', 1)->get();
+        $permissions = Permission::get();
+        $permissions_count = count($permissions);
+
+        return view('assistants', ['docotr'=>$doctor, 'assistants'=>$assistants, 'permissions'=>$permissions, '$permissions_count'=>$permissions_count]);
+    }
+
+    public function Permissions(Request $request) // post type
+    {
+        $assistants = DoctorPermission::where('doc_Id', $request['assist-doctor-id'])->get();
+        $assistants_count = count($assistants);
+        if($assistants_count<=0){
+            if($request->has('permission_name')){
+                foreach ($request->input("permission_name") as $permission) {
+    //                $table->increments('DP_Id');
+                    $add_permission = new DoctorPermission();
+                    $add_permission->permission_Id = $permission;
+                    $add_permission->doc_Id = $request['assist-doctor-id'];
+                    $add_permission->active = 1;
+                    $add_permission->save();
+                }
+            }
+        }
+        else if($assistants_count>0){
+            // 1--- doctor_permissions table e ei assistant er under e ja ase all active = 0 kore fela
+            $clear_permissions = DoctorPermission::where('doc_Id', $request['assist-doctor-id'])->where('active', 1)->update(['active' => 0]);
+            if($request->has('permission_name')) {
+                foreach ($request->input("permission_name") as $permission) {
+//                2--- doctor_permissions table e ei assistant er under e jeshob active = 0, update those to active =1
+                    $find_permission = DoctorPermission::where('doc_Id', $request['assist-doctor-id'])->where('permission_Id', $permission)->first();
+                    if (count($find_permission) > 0) {
+//                    $add_permission = DoctorPermission::where('doc_Id', $request['assist-doctor-id'])->where('active', 1)->get();
+                        $update_active_query = DoctorPermission::where('doc_Id', $request['assist-doctor-id'])->where('permission_Id', $permission)->where('active', 0)->update(['active' => 1]);
+                    } //              3--- doctor_permissions table e ei assistant er under e new permission ashle add kora, jegula DB te ekhono add hoynai
+                    else {
+                        $add_permission = new DoctorPermission();
+                        $add_permission->permission_Id = $permission;
+                        $add_permission->doc_Id = $request['assist-doctor-id'];
+                        $add_permission->active = 1;
+                        $add_permission->save();
+                    }
+
+                }
+            }
+        }
+
+        $doctor = Doctor::where('id', Auth::id())->first();
+        $assistants = Doctor::where('senior_docid', Auth::id())->where('active', 1)->get();
+        $permissions = Permission::get();
+        $permissions_count = count($permissions);
+
+        return view('assistants', ['docotr'=>$doctor, 'assistants'=>$assistants, 'permissions'=>$permissions, '$permissions_count'=>$permissions_count]);
+
     }
 }
 

@@ -81,17 +81,6 @@ class DoctorRegisterController extends Controller
 //            return redirect()->route('doctor.approval',['listid'=>$id] );
         }
 
-
-//        return redirect()->intended(route('doctor.dashboard'));
-
-//        if (Auth::guest()) {
-//            return view('welcome');
-//        }else {
-//            return view('home');
-//        }
-//
-////        return $this->registered($request, $user)
-////            ?: redirect($this->redirectPath());
     }
 
 

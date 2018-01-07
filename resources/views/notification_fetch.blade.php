@@ -36,16 +36,20 @@
     function assistantRequireHandle(request_value, notification_id) {
 //        alert(request_value + " " + notification_id);
 ////            var _token = $("#token").val();
-            $.post('request_handle', {request_value: request_value, notification_id: notification_id }, function (data) {
+            $.post("{{ URL::to('/request_handle') }}", {request_value: request_value, notification_id: notification_id }, function (data) {
                 $('#dropdown-notification').html(data.notification);
 //                alert(data.number);
 //                alert(request_value + " " + notification_id);
             });
+            if(request_value=='yes'){
+                window.location.href="{{ URL::to('/assistants') }}";
+                 {{-- // {{URL::to('restaurants/20')}} window.location.href = "{{URL::to('restaurants/20')}}"--}}
+            }
     }
-    $(".request_accept").on("click", function(e){
-
-        e.stopPropagation();
-    });
+//    $(".request_accept").on("click", function(e){
+//
+//        e.stopPropagation();
+//    });
     $(".request_reject").on("click", function(e){
 
         e.stopPropagation();

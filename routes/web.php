@@ -20,6 +20,8 @@ Route::get('/', 'DoctorController@index')->name('doctor.dashboard');
 Route::get('/aprv', 'DoctorController@approval')->name('doctor.approval');
 Route::post('/fetch_msg', 'DoctorController@Notification')->name('doctor.notification');
 Route::post('/request_handle', 'DoctorController@request_handle')->name('doctor.request_handle');
+Route::get('/assistants', 'DoctorController@Assistants')->name('doctor.assistants');
+Route::post('/assistants', 'DoctorController@Permissions')->name('doctor.permissions');
 
 Route::post('/create_patient', 'PatientController@CreatePatient')->name('create_patient');
 Route::get('/patient-history', 'PatientController@PatientHistory')->name('patient.history');

@@ -123,6 +123,20 @@
     border-bottom: 1.8px solid #e9ebee;
     /*border-radius: 2px 2px;*/
 }
+
+.borderless td, .borderless tr {
+    border: none !important;
+
+}
+#permission_set_form{
+    margin-left: 10px;
+}
+@media only screen and (max-width: 320px) {
+    #permission_set_form{
+        margin-top: 10px;
+    }
+}
+
 @media only screen and (max-width: 991px) {
     .pdate{
         float: none;
