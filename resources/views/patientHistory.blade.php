@@ -40,15 +40,16 @@
                     {{--</div>--}}
                 {{--</div>--}}
             </div>
+        @if(App\DoctorPermission::where('doc_Id', Auth::id())->where('permission_Id', 4)->first()->active == 1 )
+            <div class="col-md-6 col-md-offset-3 session-new" id="create_session" style="border-radius: 10px 10px 0 0" >
+                <div class="row  "  style=" ">
+                    {{--<div class="session-new" style="border-bottom: 2px solid #e9ebee">--}}
+                        <a href="#" style="" onclick=""><h3>Create Session</h3></a>
+                    {{--</div>--}}
 
-        <div class="col-md-6 col-md-offset-3 session-new" id="create_session" style="border-radius: 10px 10px 0 0" >
-            <div class="row  "  style=" ">
-                {{--<div class="session-new" style="border-bottom: 2px solid #e9ebee">--}}
-                    <a href="#" style="" onclick=""><h3>Create Session</h3></a>
-                {{--</div>--}}
-
+                </div>
             </div>
-        </div>
+        @endif
         <div class="col-md-6 col-md-offset-3 list-all" id="prescription" style="">
             <div class="row" style="margin-top: 10px;">
                 <div class="col-xs-12 col-md-12 col-sm-12">
@@ -174,59 +175,68 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-md-offset-3 session-new" id="prev_session" style="border-radius: 0 0 10px 10px ">
-            <div class="row  "  style=" ">
-                {{--<div class="session-new" style="border-bottom: 2px solid #e9ebee">--}}
-                <a href="#" style="" onclick=""><h3>Previous Sessions</h3></a>
-                {{--</div>--}}
-
+        @if(App\DoctorPermission::where('doc_Id', Auth::id())->where('permission_Id', 6)->first()->active == 1 )
+            @if(App\DoctorPermission::where('doc_Id', Auth::id())->where('permission_Id', 4)->first()->active == 1 )
+                <div class="col-md-6 col-md-offset-3 session-new" id="prev_session" style="border-radius: 0 0 10px 10px ">
+            @else
+                <div class="col-md-6 col-md-offset-3 session-new" id="prev_session" style="border-radius: 10px 10px 0 0 ">
+            @endif
+                <div class="row  "  style=" ">
+                    {{--<div class="session-new" style="border-bottom: 2px solid #e9ebee">--}}
+                    <a href="#" style="" onclick=""><h3>Previous Sessions</h3></a>
+                    {{--</div>--}}
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-6 col-md-offset-3 list-all" id="prev_prescription" style="">
-            <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6 col-md-offset-3 list-all" id="prev_prescription" style="">
+                <div class="row" style="margin-top: 10px;">
 
-                    <div class="col-sm-12 col-md-12 naw" style=" margin-top: 7px;">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center"><h5 style="color: #343290;"><b>Session No</b></h5></th>
-                                        <th style="text-align: center"><h5 style="color: #343290;"><b>Session Date</b></h5></th>
-                                        <th style="text-align: center"><h5 style="color: #343290;"><b>Return Date</b></h5></th>
-                                        <th style="text-align: center"><h5 style="color: #343290;"><b>View </b></h5></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($sessions as $session)
-                                    <tr class="info">
-                                        <td style="text-align: center">{{ $session->SessionId }}</td>
-                                        <td style="text-align: center">{{ $session->created_at->format('d-m-Y') }}</td>
-                                        <td style="text-align: center">{{ $session->ReturnDate }}</td>
-                                        <td style="text-align: center"><a href="{{ route('patient.session_details', ['patient_id'=>$patient->id, 'session_id'=>$session->SessionId]) }}">View Details</a></td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                        <div class="col-sm-12 col-md-12 naw" style=" margin-top: 7px;">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center"><h5 style="color: #343290;"><b>Session No</b></h5></th>
+                                            <th style="text-align: center"><h5 style="color: #343290;"><b>Session Date</b></h5></th>
+                                            <th style="text-align: center"><h5 style="color: #343290;"><b>Return Date</b></h5></th>
+                                            @if(App\DoctorPermission::where('doc_Id', Auth::id())->where('permission_Id', 7)->first()->active == 1 )
+                                            <th style="text-align: center"><h5 style="color: #343290;"><b>View </b></h5></th>
+                                            @endif
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($sessions as $session)
+                                        <tr class="info">
+                                            <td style="text-align: center">{{ $session->SessionId }}</td>
+                                            <td style="text-align: center">{{ $session->created_at->format('d-m-Y') }}</td>
+                                            <td style="text-align: center">{{ $session->ReturnDate }}</td>
+                                            @if(App\DoctorPermission::where('doc_Id', Auth::id())->where('permission_Id', 7)->first()->active == 1 )
+                                            <td style="text-align: center"><a href="{{ route('patient.session_details', ['patient_id'=>$patient->id, 'session_id'=>$session->SessionId]) }}">View Details</a></td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    <!-- PAGE CONTENT BEGINS -->
-                    {{--<form class="form-horizontal" role="form" name="" method="post" action="{{ route('patient.create_session') }}" enctype="multipart/form-data">--}}
-                        {{--{{ csrf_field() }}--}}
-                        <input type="hidden" name="pat-id" id="pat-id" value="{{ $patient->id }}">
+                        <!-- PAGE CONTENT BEGINS -->
+                        {{--<form class="form-horizontal" role="form" name="" method="post" action="{{ route('patient.create_session') }}" enctype="multipart/form-data">--}}
+                            {{--{{ csrf_field() }}--}}
+                            <input type="hidden" name="pat-id" id="pat-id" value="{{ $patient->id }}">
 
-                        {{--<div class="clearfix form-actions" style="padding-bottom: 10px;">--}}
-                            {{--<div class="col-md-offset-3 col-md-9">--}}
-                                {{--<button name="btnAdd" class="btn btn-info" type="submit">--}}
-                                    {{--<i class="ace-icon fa fa-check bigger-110"></i>--}}
-                                    {{--Add Session--}}
-                                {{--</button>--}}
+                            {{--<div class="clearfix form-actions" style="padding-bottom: 10px;">--}}
+                                {{--<div class="col-md-offset-3 col-md-9">--}}
+                                    {{--<button name="btnAdd" class="btn btn-info" type="submit">--}}
+                                        {{--<i class="ace-icon fa fa-check bigger-110"></i>--}}
+                                        {{--Add Session--}}
+                                    {{--</button>--}}
+                                {{--</div>--}}
                             {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</form>--}}
+                        {{--</form>--}}
 
+                </div>
             </div>
-        </div>
+        @endif
 
 
     </div>

@@ -45,6 +45,7 @@ class DoctorController extends Controller
         $user_type = $doctor->admin_type;
         if($user_type!='doctor'){
             $user_senior = $doctor->senior_docid;
+//            $permission = DoctorPermission::('doc_Id', Auth::id())->where('permission_Id', 1)->where('permission_Id', 1)->first();
             $patients = Patient::orderBy('created_at', 'desc')->where('doctor_id', $user_senior)->get();
         }
         return view('doctor', ['patients'=>$patients]); // doctor

@@ -54,7 +54,9 @@
             </ul>
             <ul class="nav navbar-nav navbar-right ">
                 <li class="" sty><a href="{{ route('doctor.dashboard') }}">Home</a></li>
-                <li class=""> <a class="" data-toggle="modal" data-target="#myModal"  href="#">Enroll </a> </li>
+                @if(App\DoctorPermission::where('doc_Id', Auth::id())->where('permission_Id', 1)->first()->active == 1 )
+                    <li class=""> <a class="" data-toggle="modal" data-target="#myModal"  href="#">Enroll </a> </li>
+                @endif
             </ul>
 
             <!-- Modal -->

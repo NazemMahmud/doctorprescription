@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Doctor;
+use App\DoctorPermission;
+use App\Permission;
 use App\Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -35,6 +37,7 @@ class DoctorRegisterController extends Controller
         $password = bcrypt($request['password']);
 
         $sign_as = $request['sign_as'];
+        $permissions = Permission::orderBy('permissionId')->get();
         if($sign_as == 'doctor'){
             //        store data into db column
             $doctor = new Doctor();
@@ -44,6 +47,14 @@ class DoctorRegisterController extends Controller
             $doctor->admin_type = $sign_as ;
             $doctor->active = 1 ;
             $doctor->save(); //        save data
+            /**  ** * ** ** setting all permission active for doctor ** * ** ** */
+            foreach ($permissions as $permission) {
+                $add_permission = new DoctorPermission();
+                $add_permission->permission_Id = $permission->permissionId;
+                $add_permission->doc_Id = $doctor->id;
+                $add_permission->active = 1;
+                $add_permission->save();
+            }
 
             Auth::guard('doctor')->login($doctor);
 //        Auth::login($doctor);// for doctor login;  // for user login; Auth::guard('admin')->login($admin);
@@ -62,6 +73,15 @@ class DoctorRegisterController extends Controller
             $doctor->active = 0 ;
             $doctor->senior_docid = $doc_id ;
             $doctor->save(); //        save data
+
+            /**  ** * ** ** setting all permission active for doctor ** * ** ** */
+            foreach ($permissions as $permission) {
+                $add_permission = new DoctorPermission();
+                $add_permission->permission_Id = $permission->permissionId;
+                $add_permission->doc_Id = $doctor->id;
+                $add_permission->active = 0;
+                $add_permission->save();
+            }
 
             $notification = new Notification();
             $notification->to_doc_id = $doc_id ; // notification to which doctor
